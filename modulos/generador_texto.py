@@ -1,6 +1,10 @@
 import json
 import os
 import requests
+from dotenv import load_sheet, load_dotenv
+
+# Esto busca el archivo .env y carga las claves en la memoria
+load_dotenv()
 
 
 
@@ -9,7 +13,7 @@ FILE = r"C:\Users\Antony\Desktop\Trivia\preguntas\preguntas.json"
 # =========================
 # CONFIG OPENROUTER
 # =========================
-API_KEY = os.getenv("OPENROUTER_API_KEY")
+API_KEY = os.environ.get("OPENROUTER_API_KEY")
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 

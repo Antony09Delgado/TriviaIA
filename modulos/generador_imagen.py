@@ -3,8 +3,12 @@ import json
 import time
 import requests
 from urllib.parse import quote
+from dotenv import load_sheet, load_dotenv
 
-TOKEN = os.getenv("HUGGINGFACE_TOKEN")
+# Esto busca el archivo .env y carga las claves en la memoria
+load_dotenv()
+
+TOKEN = os.environ.get("HUGGINGFACE_TOKEN")
 
 ARCHIVO_JSON = r"C:\Users\Antony\Desktop\Trivia\preguntas\preguntas.json"
 CARPETA_IMAGENES = r"C:\Users\Antony\Desktop\Trivia\imagenes"
