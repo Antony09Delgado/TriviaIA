@@ -1,0 +1,18 @@
+[
+    {
+        "pregunta": "¿Quién fue el primer rey de Israel?",
+        "a": "Saúl",
+        "b": "David",
+        "c": "Salomon",
+        "correcta": "a",
+        "prompt_imagen": "\"Escena épica de un coronation en una montaña sagrada, con una figura encapuchada sobre un trono de piedra tallada, sosteniendo una corona de oro oxidada, mientras un cielo dramático con nubes y destellos de luz baña el entorno. Estilo cinematográfico, iluminación cálida con sombras profundas, paisaje bíblico con columnas en ruinas y un desierto en la distancia, formato vertical 9:16, sin texto, simbolismo misterioso y majestuoso.\""
+    },
+    {
+        "pregunta": "¿Qué personaje de la Biblia fue arrojado a un foso lleno de leones pero no sufrió ningún daño?",
+        "a": "Jonás",
+        "b": "Daniel",
+        "c": "Sansón",
+        "correcta": "b",
+        "prompt_imagen": "Cinematic epic vertical 9:16 scene of an ancient stone lion’s den at twilight, towering lions with fierce eyes surrounding a shadowy silhouette of a robed figure bathed in a divine shaft of golden light that pierces the darkness, dramatic clouds swirling above, high contrast lighting, ultra‑detailed textures, film‑grain texture, hyper‑realistic, widescreen epic feel."
+    }
+]
