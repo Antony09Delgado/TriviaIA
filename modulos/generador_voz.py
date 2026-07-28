@@ -2,18 +2,18 @@ import json
 import os
 import random
 import time
-#VYjFFa8AIvjGA1ButDDo
+from pathlib import Path
 
-id3 = "4XUsiqPDK4UACIM2BILe"
-id_eric = "cjVigY5qzO86Huf0OWal"
-
+from dotenv import load_dotenv
 from elevenlabs.client import ElevenLabs
 from elevenlabs.core.api_error import ApiError
 
-API_KEY = os.getenv("ELEVENLABS_API_KEY", "sk_db95720a8452d531e36f4c7bfff39f27aa34484a18281d82")
-VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "cjVigY5qzO86Huf0OWal")
-MODEL_ID = os.getenv("ELEVENLABS_MODEL_ID", "eleven_multilingual_v2")
-OUTPUT_FORMAT = os.getenv("ELEVENLABS_OUTPUT_FORMAT", "mp3_44100_128")
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+
+API_KEY = os.getenv("ELEVENLABS_API_KEY", "").strip()
+VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "").strip()
+MODEL_ID = os.getenv("ELEVENLABS_MODEL_ID", "eleven_multilingual_v2").strip()
+OUTPUT_FORMAT = os.getenv("ELEVENLABS_OUTPUT_FORMAT", "mp3_44100_128").strip()
 
 FILE = r"C:\Users\Antony\Desktop\Trivia\preguntas\preguntas.json"
 CARPETA_AUDIOS = r"C:\Users\Antony\Desktop\Trivia\audios"
