@@ -58,28 +58,19 @@ imagen_biblia = ImageClip(r"C:\Users\Antony\Desktop\Trivia\imagenes\intro\biblia
 frase_audio_intro = AudioFileClip(obtener_ruta_audio_intro())
 duracion_total = frase_audio_intro.duration + 2  # Duración total del video de intro
 
-#--------------------------------------------------------------------empezamos a darles valor de duracion
-#                                                                      effectos o mas
+ANCHO, ALTO = 1080, 1920
+canva = ColorClip(size=(ANCHO, ALTO), color=(255, 255, 255))
 
-imagen_intro = imagen_intro.with_duration(duracion_total)
-imagen_biblia = (
-    imagen_biblia
-    .with_duration(duracion_total)
-    .resized(height=200)
-    .with_fps(30)
-)
-
+#--------------------------------------------------------------------hacemos funciones para el slide
 # SlideIn de MoviePy sobrescribe la posición original, por eso se iba al centro.
 # Para mantener la posición final deseada, usamos una función de posición personalizada.
-w, __dict__ = imagen_biblia.size
-
-
-
+imagen_biblia = imagen_biblia.resized(height=200)  # Ajusta la altura de la imagen de la biblia
+biblia_w,bibliah  = imagen_biblia.size
 def posicion_biblia(t):
     duracion_entrada = 1.0
     x_final = 30
     y_final = 190
-    x_inicial = -w
+    x_inicial = -biblia_w
 
     if t < duracion_entrada:
         progreso = t / duracion_entrada
@@ -90,8 +81,28 @@ def posicion_biblia(t):
     return (x, y_final)
 
 
+#--------------------------------------------------------------------empezamos a darles valor de duracion
+#                                                                      effectos o mas
+#--- canva
+canva = canva.with_duration(duracion_total)
+#-- fondo intro
+intro_w, intro_h = imagen_intro.size
+imagen_intro = imagen_intro.with_duration(duracion_total)
+imagen_intro = imagen_intro.with_fps(30).resized(height=ALTO, width=ANCHO).with_position(("center", "center"))
+imagen_biblia = (
+    imagen_biblia
+    .with_duration(duracion_total)
+    .with_fps(30)
+)
+
 imagen_biblia = imagen_biblia.with_position(posicion_biblia)
 
-final = CompositeVideoClip([imagen_biblia])
+final = CompositeVideoClip(
+    [
+    canva,
+    imagen_intro,
+    imagen_biblia,
+    ]
+    )
 final.preview(fps=15)
 #final.write_videofile(r"C:\Users\Antony\Desktop\Trivia\marca\result.mp4")# Previsualizar la imagen de la biblia con efecto
