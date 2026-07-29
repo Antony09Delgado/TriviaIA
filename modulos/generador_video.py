@@ -62,14 +62,36 @@ duracion_total = frase_audio_intro.duration + 2  # Duración total del video de 
 #                                                                      effectos o mas
 
 imagen_intro = imagen_intro.with_duration(duracion_total)
-imagen_biblia = imagen_biblia.with_duration(duracion_total).with_effects([vfx.Scroll(
-    w=imagen_biblia.w,
-    h=imagen_biblia.h,
-    x_speed=0,
-    y_speed=120,
-    x_start=0,
-    y_start=-300),  # Efecto de entrada desde la arriba
-]).resized(height=200).with_fps(30).with_position(('center', 'center'))  # Redimensionar la imagen de la biblia
-final = CompositeVideoClip([imagen_biblia])
+imagen_biblia = (
+    imagen_biblia
+    .with_duration(duracion_total)
+    .resized(height=200)
+    .with_fps(30)
+)
 
-final.write_videofile(r"C:\Users\Antony\Desktop\Trivia\marca\result.mp4")# Previsualizar la imagen de la biblia con efecto
+# SlideIn de MoviePy sobrescribe la posición original, por eso se iba al centro.
+# Para mantener la posición final deseada, usamos una función de posición personalizada.
+w, __dict__ = imagen_biblia.size
+
+
+
+def posicion_biblia(t):
+    duracion_entrada = 1.0
+    x_final = 30
+    y_final = 190
+    x_inicial = -w
+
+    if t < duracion_entrada:
+        progreso = t / duracion_entrada
+        x = x_inicial + (x_final - x_inicial) * progreso
+    else:
+        x = x_final
+
+    return (x, y_final)
+
+
+imagen_biblia = imagen_biblia.with_position(posicion_biblia)
+
+final = CompositeVideoClip([imagen_biblia])
+final.preview(fps=15)
+#final.write_videofile(r"C:\Users\Antony\Desktop\Trivia\marca\result.mp4")# Previsualizar la imagen de la biblia con efecto
