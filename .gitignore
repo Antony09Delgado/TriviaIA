@@ -3,5 +3,5 @@
 *.pyc
 .env
 preview_intro.png
-marca/result.mp4
+marca\result.mp4
 .txt
