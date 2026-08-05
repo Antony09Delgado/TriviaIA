@@ -1,6 +1,6 @@
 import random
 import json
-from moviepy import VideoFileClip, AudioFileClip, CompositeVideoClip, ImageClip, ColorClip, AudioClip, VideoClip, vfx, afx
+from moviepy import VideoFileClip, AudioFileClip, CompositeVideoClip, ImageClip, ColorClip, AudioClip, VideoClip, vfx, afx, TextClip
 
 #========================IMAGENES DE INTRO========================
 
@@ -18,6 +18,7 @@ wosh_audio4 = r"C:\Users\Antony\Desktop\Trivia\audios\efectos\wosh4.mp3"
 
 IMAGENES_INTRO = [imagen_intro1, imagen_intro2, imagen_intro3]
 AUDIOS_WOSH = [wosh_audio1, wosh_audio2, wosh_audio3, wosh_audio4]
+
 
 
 def obtener_imagen_intro_aleatoria():
@@ -44,6 +45,28 @@ def obtener_ruta_audio_intro():
     numero = max(1, siguiente - 1)
     path = fr"C:\Users\Antony\Desktop\Trivia\audios\intro_{numero}.mp3"
     return path
+#==================================font=============================
+fuente = r"C:\Users\Antony\Desktop\Trivia\fuentes\ConcertOne.ttf"
+
+
+#____________________________________________________________________________________________________
+#
+#=================================animcion de entrada funcion=========================================
+#____________________________________________________________________________________________________
+
+def animacion(x_final, y_final, ancho, duracion_entrada=0.5):
+    x_inicial = -ancho
+
+    def posicion(t):
+        if t < duracion_entrada:
+            progreso = t / duracion_entrada
+            x = x_inicial + (x_final - x_inicial) * progreso
+            return (int(x), int(y_final))
+        else:
+            x = x_final
+            return (int(x), int(y_final))
+
+    return posicion
 
 
 #____________________________________________________________________________________________________
@@ -61,48 +84,75 @@ duracion_total = frase_audio_intro.duration + 2  # Duración total del video de 
 ANCHO, ALTO = 1080, 1920
 canva = ColorClip(size=(ANCHO, ALTO), color=(255, 255, 255))
 
-#--------------------------------------------------------------------hacemos funciones para el slide
-# SlideIn de MoviePy sobrescribe la posición original, por eso se iba al centro.
-# Para mantener la posición final deseada, usamos una función de posición personalizada.
-imagen_biblia = imagen_biblia.resized(height=200)  # Ajusta la altura de la imagen de la biblia
-biblia_w,bibliah  = imagen_biblia.size
-def posicion_biblia(t):
-    duracion_entrada = 1.0
-    x_final = 30
-    y_final = 190
-    x_inicial = -biblia_w
-
-    if t < duracion_entrada:
-        progreso = t / duracion_entrada
-        x = x_inicial + (x_final - x_inicial) * progreso
-    else:
-        x = x_final
-
-    return (x, y_final)
-
 
 #--------------------------------------------------------------------empezamos a darles valor de duracion
-#                                                                      effectos o mas
-#--- canva
+#                                                                            effectos o mas               
+# 
+#                                                    
+#--- canva fondo de intro negro
 canva = canva.with_duration(duracion_total)
-#-- fondo intro
+#
+
+#---------- imagen intro
 intro_w, intro_h = imagen_intro.size
 imagen_intro = imagen_intro.with_duration(duracion_total)
 imagen_intro = imagen_intro.with_fps(30).resized(height=ALTO, width=ANCHO).with_position(("center", "center"))
+
+#--------------- imagen de la biblia
+imagen_biblia = imagen_biblia.resized(height=555)  # Ajusta la altura de la imagen de la biblia
+biblia_w,bibliah  = imagen_biblia.size
+
+animacion_biblia_intro = animacion(
+    x_final = 153,
+    y_final = 1122,
+    ancho = biblia_w,
+    duracion_entrada = 0.2,
+)
+
 imagen_biblia = (
     imagen_biblia
     .with_duration(duracion_total)
     .with_fps(30)
 )
 
-imagen_biblia = imagen_biblia.with_position(posicion_biblia)
+imagen_biblia = imagen_biblia.with_position(animacion_biblia_intro)
+
+#--- texto..
+texto_intro = TextClip(
+    font=fuente,
+    text="''Cuánto sabes de la Biblia?''",
+    font_size=120,
+    color="white",
+    stroke_color="black",
+    stroke_width=5,
+    method="caption",
+    size=(1013, 332),
+    text_align="center",
+)
+
+texto_intro = texto_intro.with_duration(duracion_total).with_fps(30)
+w_texto_intro, _ = texto_intro.size
+animacion_texto_intro = animacion(
+    x_final = 34,
+    y_final = 707,
+    ancho = -w_texto_intro,
+    duracion_entrada = 0.2,
+)
+
+texto_intro = texto_intro.with_position(animacion_texto_intro)
+
+#---------------------audios de intro
+
+#----------------final de intro
 
 final = CompositeVideoClip(
     [
     canva,
     imagen_intro,
     imagen_biblia,
+    texto_intro
     ]
     )
-final.preview(fps=15)
-#final.write_videofile(r"C:\Users\Antony\Desktop\Trivia\marca\result.mp4")# Previsualizar la imagen de la biblia con efecto
+final.save_frame("preview_intro.png", t=3)  # Guardar un fotograma de vista previa
+#final.preview(fps=15)
+final.write_videofile(r"C:\Users\Antony\Desktop\Trivia\marca\result.mp4")# Previsualizar la imagen de la biblia con efecto
