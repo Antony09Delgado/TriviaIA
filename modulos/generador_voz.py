@@ -8,6 +8,15 @@ from dotenv import load_dotenv
 from elevenlabs.client import ElevenLabs
 from elevenlabs.core.api_error import ApiError
 
+import sys
+from pathlib import Path
+
+root = Path(__file__).resolve().parent.parent
+if str(root) not in sys.path:
+    sys.path.insert(0, str(root))
+
+from rutas import audios, imagenes, preguntas
+
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 API_KEY = os.getenv("ELEVENLABS_API_KEY", "").strip()
@@ -15,9 +24,9 @@ VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "").strip()
 MODEL_ID = os.getenv("ELEVENLABS_MODEL_ID", "eleven_multilingual_v2").strip()
 OUTPUT_FORMAT = os.getenv("ELEVENLABS_OUTPUT_FORMAT", "mp3_44100_128").strip()
 
-FILE = r"C:\Users\Antony\Desktop\Trivia\preguntas\preguntas.json"
-CARPETA_AUDIOS = r"C:\Users\Antony\Desktop\Trivia\audios"
-CONTADOR_INTRO = os.path.join(CARPETA_AUDIOS, "contador_intro.json")
+FILE = preguntas / "preguntas.json"
+CARPETA_AUDIOS = audios
+CONTADOR_INTRO = audios / "contador_intro.json"
 CLIENTE = None
 
 

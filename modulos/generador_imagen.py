@@ -4,14 +4,22 @@ import time
 import requests
 from urllib.parse import quote
 from dotenv import load_sheet, load_dotenv
+import sys
+from pathlib import Path
+
+root = Path(__file__).resolve().parent.parent
+if str(root) not in sys.path:
+    sys.path.insert(0, str(root))
+
+from rutas import audios, imagenes, preguntas
 
 # Esto busca el archivo .env y carga las claves en la memoria
 load_dotenv()
 
 TOKEN = os.environ.get("HUGGINGFACE_TOKEN")
 
-ARCHIVO_JSON = r"C:\Users\Antony\Desktop\Trivia\preguntas\preguntas.json"
-CARPETA_IMAGENES = r"C:\Users\Antony\Desktop\Trivia\imagenes"
+ARCHIVO_JSON = preguntas / "preguntas.json"
+CARPETA_IMAGENES = imagenes
 
 
 def cargar_preguntas():

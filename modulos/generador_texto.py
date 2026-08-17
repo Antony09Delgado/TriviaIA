@@ -2,13 +2,21 @@ import json
 import os
 import requests
 from dotenv import load_sheet, load_dotenv
+import sys
+from pathlib import Path
+
+root = Path(__file__).resolve().parent.parent
+if str(root) not in sys.path:
+    sys.path.insert(0, str(root))
+
+from rutas import preguntas
 
 # Esto busca el archivo .env y carga las claves en la memoria
 load_dotenv()
 
 
 
-FILE = r"C:\Users\Antony\Desktop\Trivia\preguntas\preguntas.json"
+FILE = preguntas / "preguntas.json"
 
 # =========================
 # CONFIG OPENROUTER

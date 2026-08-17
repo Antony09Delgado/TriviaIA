@@ -1,19 +1,27 @@
 import random
 import json
 from moviepy import VideoFileClip, AudioFileClip, CompositeVideoClip, ImageClip, ColorClip, AudioClip, VideoClip, vfx, afx, TextClip, CompositeAudioClip
+import sys
+from pathlib import Path
+
+root = Path(__file__).resolve().parent.parent
+if str(root) not in sys.path:
+    sys.path.insert(0, str(root))
+
+from rutas import audios, imagenes, preguntas, base_dir
 
 #========================IMAGENES DE INTRO========================
 
-imagen_intro1 = r"C:\Users\Antony\Desktop\Trivia\imagenes\intro\1.png"
-imagen_intro2 = r"C:\Users\Antony\Desktop\Trivia\imagenes\intro\2.jpg"
-imagen_intro3 = r"C:\Users\Antony\Desktop\Trivia\imagenes\intro\3.jpg"
+imagen_intro1 = imagenes / "intro" / "1.png"
+imagen_intro2 = imagenes / "intro" / "2.jpg"
+imagen_intro3 = imagenes / "intro" / "3.jpg"
 
 #=======================EFECTOS DE AUDIO========================
 
-wosh_audio1 = r"C:\Users\Antony\Desktop\Trivia\audios\efectos\wosh1.mp3"
-wosh_audio2 = r"C:\Users\Antony\Desktop\Trivia\audios\efectos\wosh2.mp3"
-wosh_audio3 = r"C:\Users\Antony\Desktop\Trivia\audios\efectos\wosh3.mp3"
-wosh_audio4 = r"C:\Users\Antony\Desktop\Trivia\audios\efectos\wosh4.mp3"
+wosh_audio1 = audios / "efectos" / "wosh1.mp3"
+wosh_audio2 = audios / "efectos" / "wosh2.mp3"
+wosh_audio3 = audios / "efectos" / "wosh3.mp3"
+wosh_audio4 = audios / "efectos" / "wosh4.mp3"
 
 
 IMAGENES_INTRO = [imagen_intro1, imagen_intro2, imagen_intro3]
@@ -33,7 +41,7 @@ def obtener_audio_wosh_aleatorio():
 
 def obtener_ruta_audio_intro():
     #devuelve audio frase intro
-    contador_path = r"C:\Users\Antony\Desktop\Trivia\audios\contador_intro.json"
+    contador_path = audios / "contador_intro.json"
 
     try:
         with open(contador_path, "r", encoding="utf-8") as f:
@@ -43,10 +51,10 @@ def obtener_ruta_audio_intro():
         siguiente = 1
 
     numero = max(1, siguiente - 1)
-    path = fr"C:\Users\Antony\Desktop\Trivia\audios\intro_{numero}.mp3"
+    path = audios / f"intro_{numero}.mp3"
     return path
 #==================================font=============================
-fuente = r"C:\Users\Antony\Desktop\Trivia\fuentes\ConcertOne.ttf"
+fuente = base_dir / "fuentes" / "ConcertOne.ttf"
 
 
 #____________________________________________________________________________________________________
@@ -77,7 +85,7 @@ def animacion(x_final, y_final, ancho, duracion_entrada=0.5):
 
 #--------------------------------------------------------------------cargamos cosas necesarias
 imagen_intro = ImageClip(obtener_imagen_intro_aleatoria())
-imagen_biblia = ImageClip(r"C:\Users\Antony\Desktop\Trivia\imagenes\intro\biblia.png")
+imagen_biblia = ImageClip(imagenes / "intro" / "biblia.png")
 frase_audio_intro = AudioFileClip(obtener_ruta_audio_intro())
 duracion_total_intro = frase_audio_intro.duration + 1  # Duración total del video de intro
 
@@ -176,8 +184,8 @@ final_intro = final_intro.with_audio(audio_intro)
 
 #-------------------importamos  clip de video y audios necesarios
 
-end_video = VideoFileClip(r"C:\Users\Antony\Desktop\Trivia\imagenes\end\fondo_final.gif")
-audio_voz_chao = AudioFileClip(r"C:\Users\Antony\Desktop\Trivia\audios\final\final_voz.mp3")
+end_video = VideoFileClip(imagenes / "end" / "fondo_final.gif")
+audio_voz_chao = AudioFileClip(audios / "final" / "final_voz.mp3")
 
 duracion_end = audio_voz_chao.duration + 1  # Duración total del video 
 end_video = end_video.with_fps(30).resized(height=ALTO, width=ANCHO)
